@@ -2,4 +2,21 @@
 
 {% block content %}
     <h1>tareas</h1>
+
+    
+    <ul>
+        {% for task in tasks %}
+        <li> 
+        <a href="{% url 'task_detail' task.id %}">
+            <h1>{{task.title}}</h1>
+            <p>{{task.description}}</p>
+            <p>{{task.user.username}}</p>
+        
+        </a>
+    </li>
+        {% endfor %}
+    </ul>
+
+
+   
 {% endblock %}

@@ -60,6 +60,71 @@ logout(request) #cierra la cookie
 verificamos la autenticacion, y si es correcta cargamos la cookie del 
 respectivo ususario para que pueda acceder a sus tareas 
 
+EN SETTINGS INDICAMOS DONDE SE NCUENTRA 
+
+LOGIN_URL= '/signin'
+
+
+
 --TASK MODEL 
+
+creamos el model y lo manejamos mediante el ORM de django 
+
+---TASK FORMULARIO (formulario personalizado )
+
+sigue en forms.py 
+
+---CREAR TAREA 
+-sigue en views (createtask)
+
+--LISTAR TAREAS
+tasks=Task.objects.filter(user=request.user)
+solo me da las tareas del usuario current session 
+
+--OBTENER TAREA
+
+def task_detail(request,task_id):
+    task=Task.objects.get(pk=task_id)
+    return render(request, 'task_detail.html', {
+        'task': task
+    })
+
+
+
+BUSCARLA EN html
+
+<a href="{% url 'task_detail' task.id %}">
+            <h1>{{task.title}}</h1>
+            <p>{{task.description}}</p>
+            <p>{{task.user.username}}</p>
+
+
+si clickeamos la tarea, nos redirige al detalle de la tarea dependiendo el 
+task id que le corresponda 
+
+RESUMEN 
+
+la view recibe por parametro el task id, el task id llega cuando se clickea la tarea en el html (tasks.html) y la view redirige al detail de dicha tarea 
+
+
+--ACTUALIZAR TAREA 
+--en views y task detail 
+
+--COMPLETAR UNA TAREA  O ELIMINARLA 
+
+--PROTEGER RUTAS 
+
+para no tener el acceso a todaas las rutas sin importar estar logueado  o no 
+
+agregando el decorador antes de la view a proteger 
+@login_required
+
+esto hace que sea necesario estar logueado para acceder a la ruta que renderiza la correspondiente view 
+
+LISTAR TAREAS COMPLETADAS 
+
+def tasks_completed(request):
+    tasks= Task.objects.filter(user=request.user, datecompleted__isnull= False).order_by('-datecompleted')
+    return render(request, 'tasks.html', {'tasks': tasks})
 
 
