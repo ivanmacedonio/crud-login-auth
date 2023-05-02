@@ -1,0 +1,65 @@
+-Creamos la app 
+
+------FORMULARIO SIGNUP 
+
+from django.contrib.auth.forms import UserCreationForm
+
+cuando ejecutemos UserCreationForm nos retorna un formulario 
+
+-en views 
+
+'form': UserCreationForm 
+
+enviamos por parametro bajo el nombre de 'form', un formulario creado por defecto 
+
+<form action="/signup/" method="POST">
+      {% csrf_token %}
+      {{form}}
+      <button>Signup</button>
+</form>
+
+//cuando se ejecute el form, es decir cuanto toquemos el boton, 
+la informacion se envia a la ruta /signup/ mediante el metodo POST 
+
+
+
+------REGISTRO DE USUARIOS (recibir datos de signup)
+
+autentiaciones hechas en views.py, def signup 
+
+---LOGIN (backend) Y VISTA DE TAREAS (views)
+
+debemos crear una cookie.
+
+las cookies son las encargadas de asignar datos a cada uno de los usuarios, de tal forma 
+que el ususario1 al ingresar no pueda ver ni acceder a las tareas de usuario2, sino 
+que tenga acceso a las que estan asignadas a su cookie 
+
+from django.contrib.auth import login 
+
+crea la cookie para nosotros 
+
+----TEMPLATES Y CONDICIONALES 
+
+ {% if user.is_authenticated %}
+            <li>
+                <a href="/logout">Logout</a>
+            </li>
+            {% endif %}
+
+django cuando nos logueamos trae una variable global a todas las plantillas 
+para verificar la autenticacion, en este caso si estamos logueados la li de 
+logout la muestra
+
+-----LOGOUT 
+
+logout(request) #cierra la cookie
+
+---VISTA DE LOGIN 
+
+verificamos la autenticacion, y si es correcta cargamos la cookie del 
+respectivo ususario para que pueda acceder a sus tareas 
+
+--TASK MODEL 
+
+
